@@ -1,0 +1,37 @@
+.body {
+    background: #0b2447;
+  }
+
+  .header {
+    text-align: center;
+    color: #a5d7e8;
+    position: relative;
+  }
+
+  .converter-container {
+    position: relative;
+    border: 0.5px solid;
+    border-color: #576cbc;
+    background: #19376d;
+    position: absolute;
+    top: 7%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    width: auto;
+    white-space: nowrap;
+    padding: 10px;
+  }
+
+  select, input {
+    size: 100%;
+    font-size: 100%;
+  }
+
+  .swap {
+    border-color: rgba(255, 255, 255, 1);
+    border: 1px solid;
+    background: rgba(127, 127, 127, 0.7);
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+  }

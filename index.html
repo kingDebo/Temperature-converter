@@ -1,0 +1,154 @@
+<!DOCTYPE .html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=0.9" />
+    <title>Temperature converter</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="body">
+    <h1 class="header">Temperature Converter</h1>
+      <div class="converter-container">
+        <br />
+        <select
+          name="unit-in"
+          id="unit-in"
+          onchange="convert()"
+        >
+          <option value="c">Celcius</option>
+          <option value="f">Farenheit</option>
+          <option value="k">Kelvin</option>
+        </select>
+        <input
+          type="number"
+          name="temp-in"
+        />
+        <br /><br />
+        <button class="swap" id="swap">&#x21C5;</button
+        ><br /><br />
+        <select
+          name="unit-out"
+          id="unit-out"
+        >
+          <option value="f">Farenheit</option>
+          <option value="c">Celcius</option>
+          <option value="k">Kelvin</option>
+        </select>
+        <input class="select" type="textbox" id="output" readonly /><br /><br />
+      </div>
+    </div>
+
+    <script defer>
+      //notice the switch to the use of camelCase for variables. This is the convention for variable names in Javascript
+      const unitInEl = document.getElementById("unit-in");
+      const unitOutEl = document.getElementById("unit-out");
+      const [tempInEl] = document.getElementsByName("temp-in"); //[tempInEl] is called Array Destructuring, this essentially gives me the first element in the array
+      const outputEl = document.getElementById("output"); 
+      const swapButton = document.getElementById("swap")
+
+      tempInEl.addEventListener("input", () => {
+        convert();
+      })
+      
+      swapButton.addEventListener("click", () => {
+        swap();
+      })
+
+      
+      const swap = () => { 
+        //This is how you swap two variables. You make a temporary one to hold the variable that you will be changing first, 
+        //then change the second one to the temporary variable
+        let tempVal = tempInEl.value; //temp here means temporary.
+        let tempUnit = unitInEl.value;
+        
+        tempInEl.value = outputEl.value;
+        outputEl.value = tempVal;
+
+        unitInEl.value = unitOutEl.value;
+        unitOutEl.value = tempUnit; 
+
+        convert();
+      };
+
+      //no longer need swap in swap out since we implemented it in swap
+      
+      //You do not need convertOnInput. All it does is pass the variable to the convert function. The convert function already has access to that
+      //variable in the same way that convertOnInput has access to it. That means you wrote a function that takes 4 lines to do what the converter
+      //function could have done in one
+
+      function convert() {
+
+        const unitIn = unitInEl.value;
+        const unitOut = unitOutEl.value;
+        let input = tempInEl.value; //This is the one line that replaces your converOnInput function
+
+        const ctof = (c) => {
+          let t = (c * 9) / 5 + 32;
+          return t;
+        };
+
+        const ftoc = (c) => {
+          let t = ((c - 32) * 5) / 9;
+          return t;
+        };
+
+        const ctok = (c) => {
+          let t = c + 273.15;
+          return t;
+        };
+
+        const ftok = (c) => {
+          let t = ctok(ftoc(c));
+          return t;
+        };
+
+        const ktoc = (c) => {
+          let t = c - 273.15;
+          return t;
+        };
+
+        const ktof = (c) => {
+          let t = ctof(ktoc(c));
+          return t;
+        };
+
+        //the switch statement makes things a bit less chaotic and more readable.
+        switch (unitIn) {
+
+          case "f":
+            if(unitOut === "c"){
+              output.value = ftoc(input);
+            }else if (unitOut === "k") {
+              output.value = ftok(input);
+            }else{
+              output.value = NaN;
+            }
+          break;
+
+          case "c":
+            if(unitOut === "f"){
+              output.value = ctof(input);
+            }else if (unitOut === "k") {
+              output.value = ctok(input);
+            }else{
+              output.value = NaN;
+            }
+          break;
+
+          case "k":
+            if(unitOut === "f"){
+              output.value = ktof(input);
+            }else if (unitOut === "k") {
+              output.value = ktoc(input);
+            }else{
+              output.value = NaN;
+            }
+          break;
+        
+          default:
+            output.value = NaN;
+            break;
+        }
+      }
+    </script>
+  </body>
+</html>
